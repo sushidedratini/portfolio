@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { MenuItem } from '../commons/types';
 
 interface SubMenuProps {
   items: MenuItem[];

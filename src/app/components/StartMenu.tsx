@@ -1,9 +1,6 @@
 import React, { useState } from 'react';
 import SubMenu from './SubMenu';
-
-interface StartMenuProps {
-  isActive: boolean;
-}
+import { MenuItem } from '../commons/types';
 
 const StartMenu = () => {
   const [openSubMenu, setOpenSubMenu] = useState<string | null>(null);

@@ -1,3 +1,5 @@
+import Image from 'next/image'
+
 interface CustomButtonProps {
   name: string;
   icon?: string;
@@ -20,7 +22,7 @@ const CustomButton: React.FC<CustomButtonProps> = ({ name, icon, text, isActive,
     >
       <div className={`flex
         ${isActive ? 'outline-dashed outline-1 outline-black' : ''}`}>
-        {icon && <img src={icon} alt={name} width={20} height={4}/>}
+        {icon && <Image src={icon} alt={name} width={20} height={4}/>}
         {text}
       </div>
     </button>
