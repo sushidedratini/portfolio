@@ -2,6 +2,7 @@
 
 import React, { useState } from 'react';
 import Image from 'next/image'
+import { useActiveItem } from '../ActiveItemContext';
 
 interface DesktopIconProps {
   name: string;
@@ -9,13 +10,15 @@ interface DesktopIconProps {
 }
 
 const DesktopIcon: React.FC<DesktopIconProps> = ({ name, icon }) => {
-  const [isClicked, setIsClicked] = useState(false);
+  const { activeItem, setActiveItem } = useActiveItem();
+  const isActive = activeItem === name;
 
   return (
-    <div className={`text-center hover:cursor-pointer
-      ${isClicked ? '' : ''}`} onClick={() => setIsClicked(!isClicked)}>
-      <Image src={icon} alt={name} className="mx-auto" width="30" height="30"/>
-      <p className="font-win95 text-xs bg-win95-blue text-white inline-block px-0.5">{name}</p>
+    <div className="text-center hover:cursor-pointer" onClick={() => setActiveItem(name)}>
+      <Image className={`mx-auto
+        ${isActive ? 'filter invert hue-rotate-180' : ''}`} src={icon} alt={name} width="30" height="30"/>
+      <p className={`font-win95 text-xs text-black inline-block px-0.5
+        ${isActive ? 'border-dotted border-2 border-pink-300 bg-win95-blue' : ''}`}>{name}</p>
     </div>
   );
 };

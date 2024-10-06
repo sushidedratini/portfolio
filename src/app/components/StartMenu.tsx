@@ -21,7 +21,7 @@ const StartMenu = () => {
     { name: 'Ajuda', submenu: [] },
     { name: 'Executar...', submenu: [] },
     { name: 'Efetuar Logof...', submenu: [] },
-    { name: 'Executar...', submenu: [] }
+    { name: 'Desligar...', submenu: [] }
   ];
 
   const handleMouseEnter = (name: string) => {

@@ -1,14 +1,15 @@
 import Image from 'next/image'
+import { useActiveItem } from '../ActiveItemContext';
 
 interface CustomButtonProps {
   name: string;
   icon?: string;
   text: string;
-  isActive: boolean;
-  setActive: CallableFunction;
 }
 
-const CustomButton: React.FC<CustomButtonProps> = ({ name, icon, text, isActive, setActive }) => {
+const CustomButton: React.FC<CustomButtonProps> = ({ name, icon, text }) => {
+  const { activeItem, setActiveItem } = useActiveItem();
+  const isActive = activeItem === name;
 
   return (
     <button
@@ -18,7 +19,7 @@ const CustomButton: React.FC<CustomButtonProps> = ({ name, icon, text, isActive,
           : 'border-l-white border-t-white border-r-black border-b-black border-2' // Estilo padrão
         }`}
 
-      onClick={() => setActive(!isActive)}
+      onClick={() => isActive ? setActiveItem(null) : setActiveItem(name)}
     >
       <div className={`flex
         ${isActive ? 'outline-dashed outline-1 outline-black' : ''}`}>
