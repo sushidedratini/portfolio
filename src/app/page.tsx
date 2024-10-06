@@ -1,9 +1,8 @@
 import Taskbar from './components/Taskbar';
 import DesktopIcon from './components/DesktopIcon';
-import { ActiveItemProvider, useActiveItem } from './ActiveItemContext';
+import { ActiveItemProvider } from './ActiveItemContext';
 
 const Home = () => {
-  // const { activeItem, setActiveItem } = useActiveItem();
 
   return (
     <ActiveItemProvider>

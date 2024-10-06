@@ -1,12 +1,12 @@
 "use client";
 
-import React, { useState } from 'react';
+import React from 'react';
 import StartMenu from './StartMenu';
 import CustomButton from './CustomButton';
 import { useActiveItem } from '../ActiveItemContext';
 
 const Taskbar = () => {
-  const { activeItem, setActiveItem } = useActiveItem();
+  const { activeItem } = useActiveItem();
   const isActive = activeItem === 'Start Menu';  
   const currentTime = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
 
