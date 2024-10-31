@@ -13,7 +13,7 @@ const CustomButton: React.FC<CustomButtonProps> = ({ name, icon, text }) => {
 
   return (
     <button
-      className={`p-1 bg-gray-200 
+      className={`p-1 bg-win98-gray 
             ${isActive
           ? 'border-l-black border-t-black border-r-white border-b-white border-2' // Estilo quando ativo
           : 'border-l-white border-t-white border-r-black border-b-black border-2' // Estilo padrão

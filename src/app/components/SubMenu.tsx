@@ -17,12 +17,12 @@ const SubMenu: React.FC<SubMenuProps> = ({ items }) => {
   };
 
   return (
-    <div className="absolute left-full top-0 bg-win95-light-gray border border-win95-dark-gray w-48 text-black text-sm">
+    <div className="absolute left-full top-0 bg-win98-light-gray border border-win98-dark-gray w-48 text-black text-sm">
       <ul className="flex flex-col">
         {items.map((item, index) => (
           <li
           key={index}
-          className="p-2 hover:bg-win95-blue hover:text-white relative"
+          className="p-2 hover:bg-win98-dark-blue hover:text-white relative"
           onMouseEnter={() => handleMouseEnter(item.name)}
           onMouseLeave={handleMouseLeave}
         >
