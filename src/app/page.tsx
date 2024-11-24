@@ -1,11 +1,10 @@
-import { ActiveItemProvider } from './ActiveItemContext';
+"use client";
+
 import Desktop from './components/Desktop';
 
 const Home = () => {
   return (
-    <ActiveItemProvider>
-      <Desktop />
-    </ActiveItemProvider>
+    <Desktop />
   );
 };
 

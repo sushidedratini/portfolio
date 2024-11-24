@@ -1,5 +1,5 @@
 import Image from 'next/image'
-import { useActiveItem } from '../ActiveItemContext';
+import { useActiveItem } from '../context/ActiveItemContext';
 
 interface CustomButtonProps {
   name: string;

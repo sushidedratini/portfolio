@@ -1,4 +1,6 @@
-import React, { useState } from 'react';
+"use client";
+
+import React, { useMemo, useState } from 'react';
 import SubMenu from './SubMenu';
 import { MenuItem } from '../commons/types';
 import Image from 'next/image';
@@ -6,41 +8,44 @@ import Image from 'next/image';
 const StartMenu = () => {
   const [openSubMenu, setOpenSubMenu] = useState<string | null>(null);
 
-  const menuItems: MenuItem[] = [
-    {
-      name: 'P̲rogramas', 
-      icon: '/portfolio/images/icons/win98_icons/directory_programs_new.png',
-      submenu: [
-        { name: 'Acessórios', icon: '', submenu: [] },
-        { name: 'Jogos', icon: '', submenu: [] },
-        { name: 'Ferramentas do Sistema', icon: '', submenu: [] }
-      ]
-    },
-    {
-      name: 'Fav̲oritos', 
-      icon: '/portfolio/images/icons/win98_icons/directory_favorites-2.png',
-      submenu: []
-    },
-    { 
-      name: 'D̲ocumentos', 
-      icon: '/portfolio/images/icons/win98_icons/directory_open_file_mydocs-4.png',
-      submenu: []
-    },
-    {
-      name: 'C̲onfigurações', 
-      icon: '/portfolio/images/icons/win98_icons/settings_gear_new.png',
-      submenu: [
-        { name: 'Controle', icon: '', submenu: [] },
-        { name: 'Impressoras', icon: '', submenu: [] },
-        { name: 'Opções de Internet', icon: '', submenu: [] }
-      ]
-    },
-    { name: 'L̲ocalizar', icon: '/portfolio/images/icons/win98_icons/search_directory-5.png', submenu: [] },
-    { name: 'A̲juda', icon: '/portfolio/images/icons/win98_icons/help_book_big-0.png', submenu: [] },
-    { name: 'Ex̲ecutar...', icon: '/portfolio/images/icons/win98_icons/application_hourglass_small_cool-4.png', submenu: [] },
-    // { name: 'Efetuar Logof...', icon: '', submenu: [] },
-    { name: 'Deslig̲ar...', icon: '/portfolio/images/icons/win98_icons/shut_down_with_computer-0.png', submenu: [] }
-  ];
+  const menuItems = useMemo(
+    () => [
+      {
+        name: 'P̲rogramas',
+        icon: '/portfolio/images/icons/win98_icons/directory_programs_new.png',
+        submenu: [
+          { name: 'Acessórios', icon: '', submenu: [] },
+          { name: 'Jogos', icon: '', submenu: [] },
+          { name: 'Ferramentas do Sistema', icon: '', submenu: [] }
+        ]
+      },
+      {
+        name: 'Fav̲oritos',
+        icon: '/portfolio/images/icons/win98_icons/directory_favorites-2.png',
+        submenu: []
+      },
+      {
+        name: 'D̲ocumentos',
+        icon: '/portfolio/images/icons/win98_icons/directory_open_file_mydocs-4.png',
+        submenu: []
+      },
+      {
+        name: 'C̲onfigurações',
+        icon: '/portfolio/images/icons/win98_icons/settings_gear_new.png',
+        submenu: [
+          { name: 'Controle', icon: '', submenu: [] },
+          { name: 'Impressoras', icon: '', submenu: [] },
+          { name: 'Opções de Internet', icon: '', submenu: [] }
+        ]
+      },
+      { name: 'L̲ocalizar', icon: '/portfolio/images/icons/win98_icons/search_directory-5.png', submenu: [] },
+      { name: 'A̲juda', icon: '/portfolio/images/icons/win98_icons/help_book_big-0.png', submenu: [] },
+      { name: 'Ex̲ecutar...', icon: '/portfolio/images/icons/win98_icons/application_hourglass_small_cool-4.png', submenu: [] },
+      // { name: 'Efetuar Logof...', icon: '', submenu: [] },
+      { name: 'Deslig̲ar...', icon: '/portfolio/images/icons/win98_icons/shut_down_with_computer-0.png', submenu: [] }
+    ],
+    []
+  );
 
   const handleMouseEnter = (name: string) => {
     setOpenSubMenu(name);
@@ -72,7 +77,7 @@ const StartMenu = () => {
                 {item.submenu.length > 0 && (
                   <p className="flex items-end justify-center">▸</p>
                 )}
-                
+
               </div>
               {item.submenu.length > 0 && openSubMenu === item.name && (
                 <SubMenu items={item.submenu} />

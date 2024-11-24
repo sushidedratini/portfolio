@@ -1,5 +1,6 @@
 import localFont from "next/font/local";
 import "./globals.css";
+import ParentProvider from "./ParentWrapper";
 
 const msSansSerif = localFont({
   src: "./fonts/Ms-Sans-Serif.ttf",
@@ -16,8 +17,11 @@ export default function RootLayout({
     <html lang="en">
       <body
         className={`${msSansSerif.variable} antialiased`}
+        suppressHydrationWarning={true}
       >
-        {children}
+        <ParentProvider>
+          {children}
+        </ParentProvider>
       </body>
     </html>
   );
