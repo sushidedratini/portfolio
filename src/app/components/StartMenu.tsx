@@ -8,14 +8,21 @@ import Image from 'next/image';
 const StartMenu = () => {
   const [openSubMenu, setOpenSubMenu] = useState<string | null>(null);
 
-  const menuItems = useMemo(
+  const menuItems = useMemo<MenuItem[]>(
     () => [
       {
         name: 'P̲rogramas',
         icon: '/portfolio/images/icons/win98_icons/directory_programs_new.png',
         submenu: [
-          { name: 'Acessórios', icon: '', submenu: [] },
-          { name: 'Jogos', icon: '', submenu: [] },
+          { name: 'Acessórios', icon: '', submenu: [
+            { name: 'Jogos', icon: '', submenu: [
+              { name: 'FreeCell', icon: '', submenu: [] },
+              { name: 'Hearts', icon: '', submenu: [] },
+              { name: 'Minesweeper', icon: '', submenu: [] },
+              { name: 'Solitaire', icon: '', submenu: [] }
+            ] }
+          ] },
+          
           { name: 'Ferramentas do Sistema', icon: '', submenu: [] }
         ]
       },

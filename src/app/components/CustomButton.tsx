@@ -23,7 +23,7 @@ const CustomButton: React.FC<CustomButtonProps> = ({ name, icon, text }) => {
     >
       <div className={`flex
         ${isActive ? 'outline-dashed outline-1 outline-black' : ''}`}>
-        {icon && <Image src={icon} alt={name} width={20} height={4}/>}
+        {icon && <Image src={icon} alt={name} width={20} height={4} />}
         {text}
       </div>
     </button>

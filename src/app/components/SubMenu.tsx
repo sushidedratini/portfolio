@@ -28,7 +28,7 @@ const SubMenu: React.FC<SubMenuProps> = ({ items }) => {
             onMouseLeave={handleMouseLeave}
           >
             <div>
-              <Image src={item.icon} alt={item.name} />
+              {item.icon && <Image src={item.icon} alt={item.name} />}
               <p>{item.name}</p>
             </div>
             {item.submenu.length > 0 && openSubMenu === item.name && (

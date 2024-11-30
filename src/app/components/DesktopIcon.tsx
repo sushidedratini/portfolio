@@ -16,7 +16,7 @@ const DesktopIcon: React.FC<DesktopIconProps> = ({ title, icon }) => {
 
   return (
     <div className="text-center hover:cursor-pointer" onClick={() => setActiveItem(title)} onDoubleClick={() =>
-      openWindow(title, icon, <p>Teste</p>)
+      openWindow(title, icon, <></>)
     }>
       <Image className={`mx-auto
         ${isActive ? 'filter invert hue-rotate-180' : ''}`} src={icon} alt={title} width="30" height="30"/>

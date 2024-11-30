@@ -3,9 +3,7 @@ import "./globals.css";
 import ParentProvider from "./ParentWrapper";
 
 const msSansSerif = localFont({
-  src: "./fonts/Ms-Sans-Serif.ttf",
-  display: 'swap',
-  variable: "--font-ms-sans-serif"
+  src: "./fonts/Ms-Sans-Serif.ttf"
 });
 
 export default function RootLayout({
@@ -16,7 +14,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${msSansSerif.variable} antialiased`}
+        className={msSansSerif.className}
         suppressHydrationWarning={true}
       >
         <ParentProvider>

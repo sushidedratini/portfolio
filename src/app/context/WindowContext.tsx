@@ -1,6 +1,6 @@
 "use client";
 
-import React, { createContext, useContext, useState, ReactNode, FC, useId } from 'react';
+import React, { createContext, useContext, useState, ReactNode, FC } from 'react';
 
 interface Props {
     children?: ReactNode

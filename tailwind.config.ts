@@ -15,10 +15,7 @@ const config: Config = {
         'win98-gray': '#C0C0C0',
         'win98-dark-gray': '#808080',
         'win98-light-gray': '#F0F0F0',
-      },
-      fontFamily: {
-        win98: ['var(--font-ms-sans-serif)'], 
-      },
+      }
     },
   },
   plugins: [],
