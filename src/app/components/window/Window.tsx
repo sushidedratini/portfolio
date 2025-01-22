@@ -1,42 +1,10 @@
 "use client";
 
-import React, { ReactNode, useReducer } from 'react';
+import React, { useEffect, useState } from 'react';
 import WindowControls from './WindowControls';
 import WindowMenu from './WindowMenu';
-import { useWindowContext } from '@/app/context/WindowContext';
+import { useWindowContext, WindowState } from '@/app/context/WindowContext';
 import Image from 'next/image';
-
-const initialState = {
-  position: { x: 16, y: 16 },
-  isDragging: false,
-  dragStart: { x: 0, y: 0 },
-  isMinimized: false,
-  isMaximized: false,
-};
-
-type Action =
-  | { type: 'SET_POSITION'; payload: { x: number; y: number } }
-  | { type: 'TOGGLE_DRAGGING'; payload: boolean }
-  | { type: 'SET_DRAG_START'; payload: { x: number; y: number } }
-  | { type: 'TOGGLE_MINIMIZE' }
-  | { type: 'TOGGLE_MAXIMIZE' };
-
-const reducer = (state: typeof initialState, action: Action) => {
-  switch (action.type) {
-    case 'SET_POSITION':
-      return { ...state, position: action.payload };
-    case 'TOGGLE_DRAGGING':
-      return { ...state, isDragging: action.payload };
-    case 'SET_DRAG_START':
-      return { ...state, dragStart: action.payload };
-    case 'TOGGLE_MINIMIZE':
-      return { ...state, isMinimized: !state.isMinimized };
-    case 'TOGGLE_MAXIMIZE':
-      return { ...state, isMaximized: !state.isMaximized };
-    default:
-      return state;
-  }
-};
 
 interface WindowProps {
   id: string;
@@ -44,9 +12,16 @@ interface WindowProps {
   icon: string;
   initialWidth?: number;
   initialHeight?: number;
-  children: ReactNode;
+  children: React.ReactElement<{ id: string }>;
   onClose: () => void;
+  onMaximize: () => void;
 }
+
+const initialState = {
+  position: { x: 16, y: 16 },
+  isDragging: false,
+  dragStart: { x: 0, y: 0 }
+};
 
 const Window: React.FC<WindowProps> = ({
   id,
@@ -54,58 +29,71 @@ const Window: React.FC<WindowProps> = ({
   icon,
   children,
   onClose,
+  onMaximize
 }) => {
-  const { focusedWindowId, focusWindow } = useWindowContext();
-  const [state, dispatch] = useReducer(reducer, initialState);
+  const { windows, focusedWindowId, focusWindow } = useWindowContext();
+  const [state, setState] = useState(initialState);
+  const [currentWindow, setCurrentWindow] = useState<WindowState | undefined>(
+    windows.find((win) => win.id === id)
+  );
 
-  const handleMinimize = () => dispatch({ type: 'TOGGLE_MINIMIZE'});
-  const handleMaximize = () => dispatch({ type: 'TOGGLE_MAXIMIZE'});
+  useEffect(() => {
+    const updatedWindow = windows.find((win) => win.id === id);
+    setCurrentWindow(updatedWindow);
+  }, [windows, id]);
+
+  if (!currentWindow) {
+    return <div>Janela não encontrada</div>;
+  }
+
+  const handleMinimize = () => { };
+  const handleMaximize = () => onMaximize();
 
   const handleMouseDown = (e: React.MouseEvent) => {
-    dispatch({ type: 'TOGGLE_DRAGGING', payload: true });
-    dispatch({
-      type: 'SET_DRAG_START',
-      payload: { x: e.clientX - state.position.x, y: e.clientY - state.position.y },
-    });
+    setState({
+      ...state,
+      isDragging: true,
+      dragStart: { x: e.clientX - state.position.x, y: e.clientY - state.position.y }
+    })
     focusWindow(id);
   };
 
   const handleMouseMove = (e: React.MouseEvent) => {
     if (state.isDragging) {
-      state.isMaximized = false;
-      dispatch({
-        type: 'SET_POSITION',
-        payload: {
-          x: Math.max(0, Math.min(window.innerWidth - 300, e.clientX - state.dragStart.x)),
-          y: Math.max(0, Math.min(window.innerHeight - 200, e.clientY - state.dragStart.y)),
-        },
-      });
+      currentWindow.isMaximized = false;
+      setState({...state, position: {
+        x: Math.max(0, Math.min(window.innerWidth - 300, e.clientX - state.dragStart.x)),
+        y: Math.max(0, Math.min(window.innerHeight - 200, e.clientY - state.dragStart.y)),
+      }});
     }
   };
 
   const handleMouseUp = () => {
-    dispatch({ type: 'TOGGLE_DRAGGING', payload: false });
+    setState({...state, isDragging: false});
   };
 
   return (<>
-    {!state.isMinimized && (
+    {!currentWindow.isMinimized && (
       <div
         className={`absolute top-4 left-4 z-1 
-        bg-win98-gray border-t-2 
-        border-t-white border-b-2 border-b-black border-r-2 
-        border-r-black border-solid text-black text-sm font-win98`}
+        bg-win98-gray 
+        border-t-2 border-t-white
+        border-l-2 border-l-white 
+        border-b-2 border-b-black border-r-2 
+        border-r-black border-solid 
+        text-black text-sm font-win98`}
         style={{
-          width: state.isMaximized ? '100%' : '500px',
-          height: state.isMaximized ? 'calc(100% - 36px)' : '400px',
-          left: state.isMaximized ? '0' : state.position.x,
-          top: state.isMaximized ? '0' : state.position.y,
+          width: currentWindow.isMaximized ? '100%' : '500px',
+          height: currentWindow.isMaximized ? 'calc(100% - 36px)' : '400px',
+          left: currentWindow.isMaximized ? '0' : state.position.x,
+          top: currentWindow.isMaximized ? '0' : state.position.y,
           zIndex: focusedWindowId === id ? 2 : 1
         }}
         onMouseMove={handleMouseMove}
         onMouseUp={handleMouseUp}
         onMouseLeave={handleMouseUp}
       >
-        <div className="flex flex-col h- p-0.5">
+        <div className="flex flex-col p-0.5">
           <div className="flex items-center justify-between bg-win98-dark-blue text-white p-0.5 select-none"
             onMouseDown={handleMouseDown}>
             <div className="flex flex-row gap-1">
@@ -123,8 +111,11 @@ const Window: React.FC<WindowProps> = ({
           <WindowMenu />
 
           {/* Conteúdo da Janela */}
-          <div className="h-full p-4 bg-win98-light-gray">{children}</div>
-
+          <div className="h-full p-4 bg-win98-light-gray">
+            {React.isValidElement(children)
+              ? React.cloneElement(children, { id })
+              : children}
+          </div>
         </div>
       </div>
     )}

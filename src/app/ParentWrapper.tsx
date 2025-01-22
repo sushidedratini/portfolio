@@ -6,15 +6,17 @@ import { ActiveItemProvider } from './context/ActiveItemContext';
 import { WindowProvider } from './context/WindowContext';
 
 export default function ParentProvider({
-    children
+  children
 }: {
-    children: React.ReactNode
+  children: React.ReactNode
 }) {
-    return (
-        <ActiveItemProvider>
-            <WindowProvider>
-                {children}
-            </WindowProvider>
-        </ActiveItemProvider>
-    )
+  return (
+    <>
+      <ActiveItemProvider>
+        <WindowProvider>
+          {children}
+        </WindowProvider>
+      </ActiveItemProvider>
+    </>
+  )
 }

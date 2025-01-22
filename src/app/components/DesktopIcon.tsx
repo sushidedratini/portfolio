@@ -3,6 +3,8 @@
 import Image from 'next/image'
 import { useActiveItem } from '../context/ActiveItemContext';
 import { useWindowContext } from '../context/WindowContext';
+// import PdfViewer from './PdfViewer';
+// import PdfViewer from './PdfViewer';
 
 interface DesktopIconProps {
   title: string;

@@ -8,7 +8,7 @@ import Taskbar from "./Taskbar";
 import Window from "./window/Window";
 
 const Desktop = () => {
-  const { windows, closeWindow } = useWindowContext();
+  const { windows, closeWindow, toggleMaximize } = useWindowContext();
 
   const activeWindows = useMemo(() => {
     return windows.filter((window) => !window.isMinimized).map((window) => (
@@ -18,6 +18,7 @@ const Desktop = () => {
         icon={window.icon}
         title={window.title}
         onClose={() => closeWindow(window.id)}
+        onMaximize={() => toggleMaximize(window.id)}
       >
         {window.content}
       </Window>

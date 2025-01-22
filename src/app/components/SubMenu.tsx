@@ -18,7 +18,7 @@ const SubMenu: React.FC<SubMenuProps> = ({ items }) => {
   };
 
   return (
-    <div className="absolute left-full top-0 bg-win98-light-gray border border-win98-dark-gray w-48 text-black text-sm">
+    <div className="absolute left-full top-0 border border-win98-dark-gray w-48 bg-win98-gray border-t-2 border-t-white border-b-2 border-b-black border-r-2 border-r-black border-solid text-black text-sm font-win98">
       <ul className="flex flex-col">
         {items.map((item, index) => (
           <li
