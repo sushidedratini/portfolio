@@ -1,4 +1,5 @@
 import React from 'react';
+import Grip from './Grip';
 
 /**
  * The grooved container that stacks command bands (menu bar, toolbar...)
@@ -29,7 +30,7 @@ export const RebarBand = ({ children, trailing }: RebarBandProps) => (
   <section className="flex flex-row justify-between border-t-2 border-t-white border-l-2 border-l-white">
     <div className="flex items-start mx-0.5 bg-win98-gray text-black text-xs select-none">
       <div className="flex items-start my-0.5">
-        <div className="w-1 h-5 mr-1 bg-win98-gray border border-l-white border-t-white border-r-win98-dark-gray border-b-win98-dark-gray cursor-col-resize" />
+        <Grip className="h-5 mr-1" />
         {children}
       </div>
     </div>

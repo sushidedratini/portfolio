@@ -22,11 +22,11 @@ const SystemTray = () => {
   }, []);
 
   return (
-    <div className="flex items-center gap-3 h-8 mr-0.5 pl-1.5 pr-2.5 select-none
+    <div className="flex items-center gap-4 h-7 mr-0.5 pl-2 pr-3 select-none
       border border-t-win98-dark-gray border-l-win98-dark-gray border-b-white border-r-white">
       {/* TODO: clicking opens the volume control */}
       <button className="flex items-center" title="Volume">
-        <Image src={`${ICONS_PATH}/loudspeaker_rays-1.png`} alt="Volume" width={16} height={16} />
+        <Image src={`${ICONS_PATH}/loudspeaker_rays-0.png`} alt="Volume" width={20} height={20} />
       </button>
 
       {/* TODO: double-clicking opens Date/Time properties */}

@@ -13,7 +13,7 @@ const StartButton: React.FC<StartButtonProps> = ({ name, icon, text }) => {
 
   return (
     <button
-      className={`p-1 bg-win98-gray 
+      className={`flex items-center h-7 px-1.5 bg-win98-gray font-bold 
             ${isActive
           ? 'border-l-black border-t-black border-r-white border-b-white border-2' // Estilo quando ativo
           : 'border-l-white border-t-white border-r-black border-b-black border-2' // Estilo padrão
@@ -21,9 +21,9 @@ const StartButton: React.FC<StartButtonProps> = ({ name, icon, text }) => {
 
       onClick={() => isActive ? setActiveItem(null) : setActiveItem(name)}
     >
-      <div className={`flex
+      <div className={`flex items-center gap-1.5 pr-0.5
         ${isActive ? 'outline-dashed outline-1 outline-black' : ''}`}>
-        {icon && <Image src={icon} alt={name} width={20} height={4} />}
+        {icon && <Image src={icon} alt={name} width={20} height={20} />}
         {text}
       </div>
     </button>
