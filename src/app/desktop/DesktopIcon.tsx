@@ -1,24 +1,26 @@
 "use client";
 
 import Image from 'next/image'
-import { useActiveItem } from '../context/ActiveItemContext';
-import { useWindowContext } from '../context/WindowContext';
-// import PdfViewer from './PdfViewer';
-// import PdfViewer from './PdfViewer';
+import { useActiveItem } from './ActiveItemContext';
+import { useWindowManager } from '../window-manager/WindowManagerContext';
 
 interface DesktopIconProps {
-  title: string;
-  icon: string;
+  appId: string;
 }
 
-const DesktopIcon: React.FC<DesktopIconProps> = ({ title, icon }) => {
+/** A desktop shortcut: double-click launches the application it points to. */
+const DesktopIcon: React.FC<DesktopIconProps> = ({ appId }) => {
   const { activeItem, setActiveItem } = useActiveItem();
-  const { openWindow } = useWindowContext();
+  const { apps, openApp } = useWindowManager();
+  const app = apps[appId];
+  if (!app) return null;
+
+  const { title, icon } = app;
   const isActive = activeItem === title;
 
   return (
     <div className="text-center hover:cursor-pointer" onClick={() => setActiveItem(title)} onDoubleClick={() =>
-      openWindow(title, icon, <></>)
+      openApp(appId)
     }>
       <Image className={`mx-auto
         ${isActive ? 'filter invert hue-rotate-180' : ''}`} src={icon} alt={title} width="30" height="30"/>

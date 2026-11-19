@@ -1,13 +1,13 @@
 import Image from 'next/image'
-import { useActiveItem } from '../context/ActiveItemContext';
+import { useActiveItem } from './ActiveItemContext';
 
-interface CustomButtonProps {
+interface StartButtonProps {
   name: string;
   icon?: string;
   text: string;
 }
 
-const CustomButton: React.FC<CustomButtonProps> = ({ name, icon, text }) => {
+const StartButton: React.FC<StartButtonProps> = ({ name, icon, text }) => {
   const { activeItem, setActiveItem } = useActiveItem();
   const isActive = activeItem === name;
 
@@ -30,4 +30,4 @@ const CustomButton: React.FC<CustomButtonProps> = ({ name, icon, text }) => {
   );
 };
 
-export default CustomButton;
+export default StartButton;

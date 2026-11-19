@@ -2,8 +2,9 @@
 
 import React from "react";
 
-import { ActiveItemProvider } from './context/ActiveItemContext';
-import { WindowProvider } from './context/WindowContext';
+import { ActiveItemProvider } from './desktop/ActiveItemContext';
+import { WindowManagerProvider } from './window-manager/WindowManagerContext';
+import { applications } from './applications';
 
 export default function ParentProvider({
   children
@@ -11,12 +12,10 @@ export default function ParentProvider({
   children: React.ReactNode
 }) {
   return (
-    <>
-      <ActiveItemProvider>
-        <WindowProvider>
-          {children}
-        </WindowProvider>
-      </ActiveItemProvider>
-    </>
+    <ActiveItemProvider>
+      <WindowManagerProvider apps={applications}>
+        {children}
+      </WindowManagerProvider>
+    </ActiveItemProvider>
   )
 }

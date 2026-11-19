@@ -1,12 +1,13 @@
 import React, { useState } from 'react';
-import { MenuItem } from '../commons/types';
+import { StartMenuItem } from './types';
 import Image from 'next/image';
 
 interface SubMenuProps {
-  items: MenuItem[];
+  items: StartMenuItem[];
+  onLaunch: (appId: string) => void;
 }
 
-const SubMenu: React.FC<SubMenuProps> = ({ items }) => {
+const SubMenu: React.FC<SubMenuProps> = ({ items, onLaunch }) => {
   const [openSubMenu, setOpenSubMenu] = useState<string | null>(null);
 
   const handleMouseEnter = (name: string) => {
@@ -26,13 +27,23 @@ const SubMenu: React.FC<SubMenuProps> = ({ items }) => {
             className="p-2 hover:bg-win98-dark-blue hover:text-white relative"
             onMouseEnter={() => handleMouseEnter(item.name)}
             onMouseLeave={handleMouseLeave}
+            onClick={(e) => {
+              if (!item.appId) return;
+              e.stopPropagation();
+              onLaunch(item.appId);
+            }}
           >
-            <div>
-              {item.icon && <Image src={item.icon} alt={item.name} />}
-              <p>{item.name}</p>
+            <div className="flex flex-row justify-between">
+              <div className="flex items-center gap-2">
+                {item.icon && <Image src={item.icon} alt="" width={16} height={16} />}
+                <p>{item.name}</p>
+              </div>
+              {item.submenu.length > 0 && (
+                <p className="flex items-end justify-center">▸</p>
+              )}
             </div>
             {item.submenu.length > 0 && openSubMenu === item.name && (
-              <SubMenu items={item.submenu} />
+              <SubMenu items={item.submenu} onLaunch={onLaunch} />
             )}
           </li>
         ))}

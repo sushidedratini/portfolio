@@ -2,13 +2,22 @@
 
 import React, { useMemo, useState } from 'react';
 import SubMenu from './SubMenu';
-import { MenuItem } from '../commons/types';
+import { StartMenuItem } from './types';
+import { useActiveItem } from './ActiveItemContext';
+import { useWindowManager } from '../window-manager/WindowManagerContext';
 import Image from 'next/image';
 
 const StartMenu = () => {
   const [openSubMenu, setOpenSubMenu] = useState<string | null>(null);
+  const { setActiveItem } = useActiveItem();
+  const { openApp } = useWindowManager();
 
-  const menuItems = useMemo<MenuItem[]>(
+  const handleLaunch = (appId: string) => {
+    setActiveItem(null);
+    openApp(appId);
+  };
+
+  const menuItems = useMemo<StartMenuItem[]>(
     () => [
       {
         name: 'P̲rogramas',
@@ -23,7 +32,8 @@ const StartMenu = () => {
             ] }
           ] },
           
-          { name: 'Ferramentas do Sistema', icon: '', submenu: [] }
+          { name: 'Ferramentas do Sistema', icon: '', submenu: [] },
+          { name: 'Windows Explorer', icon: '/portfolio/images/icons/win98_icons/computer_explorer-4.png', submenu: [], appId: 'my-computer' }
         ]
       },
       {
@@ -75,6 +85,7 @@ const StartMenu = () => {
               className="p-2 hover:bg-win98-dark-blue hover:text-white relative"
               onMouseEnter={() => handleMouseEnter(item.name)}
               onMouseLeave={handleMouseLeave}
+              onClick={() => item.appId && handleLaunch(item.appId)}
             >
               <div className="flex flex-row justify-between">
                 <div className="flex gap-3">
@@ -87,7 +98,7 @@ const StartMenu = () => {
 
               </div>
               {item.submenu.length > 0 && openSubMenu === item.name && (
-                <SubMenu items={item.submenu} />
+                <SubMenu items={item.submenu} onLaunch={handleLaunch} />
               )}
             </li>
           ))}
