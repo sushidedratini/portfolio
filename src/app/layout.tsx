@@ -1,4 +1,8 @@
 import localFont from "next/font/local";
+// PDF text/annotation layer styles (Acrobat Reader). Loaded globally because react-pdf checks
+// for them on first render, before the lazily-loaded reader's own CSS chunk would arrive.
+import "react-pdf/dist/Page/TextLayer.css";
+import "react-pdf/dist/Page/AnnotationLayer.css";
 import "./globals.css";
 import ParentProvider from "./ParentWrapper";
 

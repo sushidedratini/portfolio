@@ -10,4 +10,6 @@ export const icons = {
   document: `${ICONS_PATH}/document-1.png`,
   notepadFile: `${ICONS_PATH}/notepad_file-2.png`,
   paintFile: `${ICONS_PATH}/paint_file-4.png`,
+  acrobat: '/portfolio/images/98style/adobeacro.ico',
+  adobeLogo: '/portfolio/images/adobe-logo.png',
 };

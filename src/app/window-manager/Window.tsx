@@ -56,13 +56,14 @@ const Window: React.FC<WindowProps> = ({ window: win, isFocused, zIndex, childre
   const instance = useMemo<WindowInstance>(() => ({
     id,
     title: win.title,
+    file: win.file,
     isFocused,
     isMaximized: win.isMaximized,
     close: () => closeWindow(id),
     minimize: () => minimizeWindow(id),
     toggleMaximize: () => toggleMaximize(id),
     setTitle: (title: string) => setWindowTitle(id, title),
-  }), [id, win.title, isFocused, win.isMaximized, closeWindow, minimizeWindow, toggleMaximize, setWindowTitle]);
+  }), [id, win.title, win.file, isFocused, win.isMaximized, closeWindow, minimizeWindow, toggleMaximize, setWindowTitle]);
 
   return (
     <div

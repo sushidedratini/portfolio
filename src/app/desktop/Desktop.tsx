@@ -6,8 +6,7 @@ import WindowManager from "../window-manager/WindowManager";
 
 import DesktopIcon from "./DesktopIcon";
 import Taskbar from "./Taskbar";
-
-const SHORTCUTS = ['my-computer', 'recycle-bin'];
+import { DESKTOP_SHORTCUTS } from "./shortcuts";
 
 const Desktop = () => {
   const { setActiveItem } = useActiveItem();
@@ -25,7 +24,9 @@ const Desktop = () => {
       onMouseDown={handleMouseDown}
     >
       <div className="p-4 grid grid-flow-row auto-rows-max gap-4 w-36 h-full">
-        {SHORTCUTS.map((appId) => <DesktopIcon key={appId} appId={appId} />)}
+        {DESKTOP_SHORTCUTS.map((shortcut) => (
+          <DesktopIcon key={shortcut.file ?? shortcut.appId} shortcut={shortcut} />
+        ))}
       </div>
 
       <WindowManager />

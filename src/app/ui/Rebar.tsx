@@ -5,17 +5,26 @@ import Grip from './Grip';
  * The grooved container that stacks command bands (menu bar, toolbar...)
  * at the top of Explorer-like windows.
  */
-export const Rebar = ({ children }: { children: React.ReactNode }) => {
+interface RebarProps {
+  children: React.ReactNode;
+  /** Optional content pinned to the right, spanning every band (e.g. an app's logo). */
+  trailing?: React.ReactNode;
+}
+
+export const Rebar = ({ children, trailing }: RebarProps) => {
   const bands = React.Children.toArray(children).filter(Boolean);
 
   return (
-    <div className="flex flex-col my-0.5 border-t-2 border-2 border-win98-dark-gray">
-      {bands.map((band, index) => (
-        <React.Fragment key={index}>
-          {index > 0 && <hr className="border-t-2 border-t-win98-dark-gray" />}
-          {band}
-        </React.Fragment>
-      ))}
+    <div className="flex my-0.5 border-t-2 border-2 border-win98-dark-gray">
+      <div className="flex flex-col flex-1 min-w-0">
+        {bands.map((band, index) => (
+          <React.Fragment key={index}>
+            {index > 0 && <hr className="border-t-2 border-t-win98-dark-gray" />}
+            {band}
+          </React.Fragment>
+        ))}
+      </div>
+      {trailing}
     </div>
   );
 };

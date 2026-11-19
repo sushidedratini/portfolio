@@ -9,6 +9,8 @@ import { createContext, useContext } from 'react';
 export interface WindowInstance {
   id: string;
   title: string;
+  /** Document the app was launched with, if any. */
+  file?: string;
   isFocused: boolean;
   isMaximized: boolean;
   close: () => void;

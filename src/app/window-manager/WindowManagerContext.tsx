@@ -1,7 +1,7 @@
 "use client";
 
 import React, { createContext, FC, ReactNode, useCallback, useContext, useMemo, useReducer, useRef } from 'react';
-import { AppDefinition, Position, WindowState } from './types';
+import { AppDefinition, LaunchOptions, Position, WindowState } from './types';
 
 const DEFAULT_SIZE = { width: 500, height: 400 };
 const CASCADE_START = 16;
@@ -15,7 +15,7 @@ interface ManagerState {
 }
 
 type Action =
-  | { type: 'open'; app: AppDefinition; id: string; position: Position }
+  | { type: 'open'; app: AppDefinition; id: string; position: Position; file?: string }
   | { type: 'close'; id: string }
   | { type: 'minimize'; id: string }
   | { type: 'restore'; id: string }
@@ -23,6 +23,8 @@ type Action =
   | { type: 'toggleMaximize'; id: string }
   | { type: 'move'; id: string; position: Position }
   | { type: 'setTitle'; id: string; title: string };
+
+export const fileName = (file: string) => decodeURIComponent(file.split('/').pop() ?? file);
 
 const update = (windows: WindowState[], id: string, patch: Partial<WindowState>) =>
   windows.map((win) => (win.id === id ? { ...win, ...patch } : win));
@@ -42,17 +44,22 @@ const bringToFront = (state: ManagerState, id: string, patch: Partial<WindowStat
 function reducer(state: ManagerState, action: Action): ManagerState {
   switch (action.type) {
     case 'open': {
-      const existing = action.app.singleInstance && state.windows.find((win) => win.appId === action.app.id);
+      const { app, file } = action;
+      // Single-instance apps, or the same document opened twice, reuse the existing window.
+      const existing = state.windows.find((win) =>
+        win.appId === app.id && (app.singleInstance || (file !== undefined && win.file === file)));
       if (existing) {
         return bringToFront(state, existing.id, { isMinimized: false });
       }
       const win: WindowState = {
         id: action.id,
-        appId: action.app.id,
-        title: action.app.title,
-        icon: action.app.icon,
+        appId: app.id,
+        file,
+        // Document windows follow the classic "App - [document]" title.
+        title: file ? `${app.title} - [${fileName(file)}]` : app.title,
+        icon: app.icon,
         position: action.position,
-        size: action.app.defaultSize ?? DEFAULT_SIZE,
+        size: app.defaultSize ?? DEFAULT_SIZE,
         isMinimized: false,
         isMaximized: false,
         zOrder: state.nextZOrder,
@@ -91,7 +98,7 @@ interface WindowManagerContextType {
   /** Kept in opening order (taskbar order). Stacking is given by `zOrder`. */
   windows: WindowState[];
   focusedWindowId: string | null;
-  openApp: (appId: string) => void;
+  openApp: (appId: string, options?: LaunchOptions) => void;
   closeWindow: (id: string) => void;
   minimizeWindow: (id: string) => void;
   restoreWindow: (id: string) => void;
@@ -122,7 +129,7 @@ export const WindowManagerProvider: FC<Props> = ({ apps, children }) => {
 
   const appsById = useMemo(() => Object.fromEntries(apps.map((app) => [app.id, app])), [apps]);
 
-  const openApp = useCallback((appId: string) => {
+  const openApp = useCallback((appId: string, options: LaunchOptions = {}) => {
     const app = appsById[appId];
     if (!app) {
       console.warn(`Unknown application: ${appId}`);
@@ -130,7 +137,7 @@ export const WindowManagerProvider: FC<Props> = ({ apps, children }) => {
     }
     const count = openedCount.current++;
     const offset = CASCADE_START + (count % CASCADE_STEPS) * CASCADE_STEP;
-    dispatch({ type: 'open', app, id: `${appId}-${count}`, position: { x: offset, y: offset } });
+    dispatch({ type: 'open', app, id: `${appId}-${count}`, position: { x: offset, y: offset }, file: options.file });
   }, [appsById]);
 
   const closeWindow = useCallback((id: string) => dispatch({ type: 'close', id }), []);

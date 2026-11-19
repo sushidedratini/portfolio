@@ -1,6 +1,7 @@
 import type { AppDefinition } from '../window-manager/types';
 import Explorer from './explorer/Explorer';
 import RecycleBin from './recycle-bin/RecycleBin';
+import AcrobatReader from './acrobat-reader';
 import { icons } from './icons';
 
 /**
@@ -21,5 +22,13 @@ export const applications: AppDefinition[] = [
     icon: icons.recycleBin,
     render: () => <RecycleBin />,
     singleInstance: true,
+  },
+  {
+    // Not single instance: each document opens in its own window (the same document reuses its window).
+    id: 'acrobat-reader',
+    title: 'Acrobat Reader',
+    icon: icons.acrobat,
+    render: () => <AcrobatReader />,
+    defaultSize: { width: 680, height: 540 },
   },
 ];

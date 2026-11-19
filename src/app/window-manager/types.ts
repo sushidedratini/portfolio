@@ -25,9 +25,16 @@ export interface AppDefinition {
   singleInstance?: boolean;
 }
 
+/** Like command-line arguments when Windows launches a program to open a document. */
+export interface LaunchOptions {
+  /** URL of the document the app should open. */
+  file?: string;
+}
+
 export interface WindowState {
   id: string;
   appId: string;
+  file?: string;
   title: string;
   icon: string;
   position: Position;
